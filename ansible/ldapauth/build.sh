@@ -31,14 +31,14 @@ hosts()
 
 deploy()
 {
-  ansible-playbook -i hosts.yml site.yml
+  ansible-playbook -i hosts.yml -t ldapauth site.yml
 }
 
 default()
 {
   tag=$1
-  ansible-playbook -K -i hosts.yml -t $tag site.yml
-  #ansible-playbook -i hosts.yml -t $tag site.yml
+  #ansible-playbook -K -i hosts.yml -t $tag site.yml
+  ansible-playbook -i hosts.yml -t $tag site.yml
 }
 
 hosts
@@ -62,7 +62,7 @@ while [ $# -ne 0 ]; do
 done
 
 if [ -z "$args" ]; then
-  help
+  all
   exit 1
 fi
 

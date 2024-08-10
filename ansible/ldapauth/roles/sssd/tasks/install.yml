@@ -29,8 +29,17 @@
 - name: install sssd (FreeBSD)
   ansible.builtin.package:
     name:
+    - bash
     - sssd2
+    - pam_mkhomedir
     state: present
+  when: ansible_facts['os_family'] == "FreeBSD"
+
+- name: create symbolic link for bash (FreeBSD)
+  ansible.builtin.file:
+    src: /usr/local/bin/bash
+    dest: /bin/bash
+    state: link
   when: ansible_facts['os_family'] == "FreeBSD"
 
 - name: install openldap (FreeBSD)
@@ -39,7 +48,7 @@
     - openldap26-client
     state: present
   when: ansible_facts['os_family'] == "FreeBSD"
-  
+
 #- name: check sssd is running
 #  ansible.builtin.systemd:
 #    state: started

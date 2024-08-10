@@ -1,7 +1,8 @@
 - name: setup sssd-ldap
   #hosts: rocky
   #hosts: debian
-  hosts: ubuntu
+  #hosts: ubuntu
+  hosts: dnsserver
 
   roles:
   - role: sssd

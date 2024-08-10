@@ -1,0 +1,8 @@
+---
+ansible_host: dnsserver
+ansible_user: root
+sysconfdir: /usr/local/etc
+
+# sshd_config
+authorizedkeyscommand: /usr/local/bin/sss_ssh_authorizedkeys
+
