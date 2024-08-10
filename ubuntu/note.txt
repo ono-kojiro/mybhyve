@@ -1,0 +1,19 @@
+
+static IP configuration
+
+edit /etc/netplan/*.yaml
+==========================
+
+network:
+    ethernets:
+        enp0s5:
+            dhcp4: false
+            dhcp6: false
+            addresses: [192.168.0.244/24]
+            routes:
+            - to: default
+              via: 192.168.0.1
+            nameservers:
+              addresses: [192.168.0.1, 8.8.8.8, 8.8.4.4]
+    version: 2
+
