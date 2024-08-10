@@ -1,0 +1,17 @@
+---
+#- name: add ldapwheel to sudoer
+#  ansible.builtin.lineinfile:
+#    path: /etc/sudoers.d/80-ldapusers
+#    line: "%{{ admin_group }}  ALL=(ALL:ALL) ALL"
+#    create: yes
+
+- name: add ldapwheel to sudoers
+  ansible.builtin.template:
+    src:  80-groups
+    dest: /etc/sudoers.d/
+
+- name: add empty template
+  ansible.builtin.template:
+    src:  90-users
+    dest: /etc/sudoers.d/
+

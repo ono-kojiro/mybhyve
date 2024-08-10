@@ -1,0 +1,12 @@
+- name: setup sssd-ldap
+  #hosts: rocky
+  #hosts: debian
+  hosts: ubuntu
+
+  roles:
+  - role: sssd
+    tags: sssd, ldapauth
+    
+  - role: sudo
+    tags: sudo, ldapauth
+
