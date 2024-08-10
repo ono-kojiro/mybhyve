@@ -1,0 +1,7 @@
+- name: setup sssd-ldap
+  hosts: rocky, debian, ubuntu, oracle, freebsd
+
+  tasks:
+  - name: show os_family
+    ansible.builtin.debug:
+      var: ansible_facts

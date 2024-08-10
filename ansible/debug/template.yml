@@ -1,0 +1,9 @@
+all:
+  children:
+    servers:
+      hosts:
+        rocky:
+        debian:
+        ubuntu:
+        oracle:
+        freebsd:
