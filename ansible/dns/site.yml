@@ -1,0 +1,42 @@
+- name: setup dns
+  hosts: dnsserver
+
+  tasks:
+  - name: install bind
+    ansible.builtin.package:
+      name: bind918
+      state: present
+  
+  - name: backup named.conf
+    ansible.builtin.shell: |
+      if [ ! -e "/usr/local/etc/namedb/named.conf.orig" ]; then
+        cp /usr/local/etc/namedb/named.conf \
+           /usr/local/etc/namedb/named.conf.orig
+      fi
+  
+  - name: upload named.conf
+    ansible.builtin.template:
+      src: named.conf
+      dest: /usr/local/etc/namedb/
+  
+  - name: upload db.example.com
+    ansible.builtin.template:
+      src:  db.example.com
+      dest: /usr/local/etc/namedb/
+  
+  - name: upload db.192.168.0
+    ansible.builtin.template:
+      src:  db.192.168.0
+      dest: /usr/local/etc/namedb/
+
+  - name: enable named
+    community.general.sysrc:
+      name: "named_enable"
+      value: "YES"
+
+  - name: start named
+    ansible.builtin.service:
+      name: named
+      state: restarted
+
+ 

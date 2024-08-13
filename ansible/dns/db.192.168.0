@@ -1,0 +1,12 @@
+; BIND reverse data file
+$TTL 2d    ; default TTL for zone
+@         IN      SOA   dnsserver.example.com. root.example.com. (
+                                2024081101 ; serial number
+                                12h        ; refresh
+                                15m        ; update retry
+                                3w         ; expiry
+                                2h         ; minimum
+                                )
+; name server RR for the domain
+@           IN      NS     dnsserver.example.com.
+69          IN      PTR    rocky.example.com.
