@@ -1,0 +1,71 @@
+- name: setup http server
+  hosts: webserver
+
+  tasks:
+  - name: install apache http server
+    ansible.builtin.package:
+      name:  apache2
+      state: present
+ 
+  - name: upload server cert
+    ansible.builtin.copy:
+      src: webserver.crt
+      dest: /etc/ssl/certs/
+      owner: root
+      group: root
+      mode:  '0644'
+  
+  - name: upload server key
+    ansible.builtin.copy:
+      src: webserver.key
+      dest: /etc/ssl/private/
+      owner: root
+      group: ssl-cert
+      mode:  '0640'
+
+  - name: enable ssl
+    community.general.apache2_module:
+      name:  "{{ item.module }}"
+      state: "{{ item.state }}"
+    loop:
+    - module: ssl
+      state:  present
+  
+  - name: enable default-ssl site
+    ansible.builtin.shell: |
+      a2ensite default-ssl
+
+  - name: set server cert
+    ansible.builtin.lineinfile:
+      path:   /etc/apache2/sites-available/default-ssl.conf
+      regexp: '(\s+)(SSLCertificateFile)(\s+)(.+)'
+      line:   '\1\2\3/etc/ssl/certs/webserver.crt'
+      backrefs: yes
+  
+  - name: set server key
+    ansible.builtin.lineinfile:
+      path:   /etc/apache2/sites-available/default-ssl.conf
+      regexp: '(\s+)(SSLCertificateKeyFile)(\s+)(.+)'
+      line:   '\1\2\3/etc/ssl/private/webserver.key'
+      backrefs: yes
+ 
+  - name: create /var/www/html/files/
+    ansible.builtin.file:
+      path: /var/www/html/files
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+ 
+  - name: upload cacert
+    ansible.builtin.copy:
+      src: mylocalca.crt
+      dest: /var/www/html/files/
+      owner: root
+      group: root
+      mode:  '0644'
+
+  - name: restart httpd
+    ansible.builtin.systemd:
+      name:  apache2
+      state: restarted
