@@ -1,0 +1,39 @@
+- hosts: myserver
+
+  roles:
+    - role: slapd
+      tags: slapd, consumer
+    
+    - role: tls
+      tags: tls, consumer
+    
+    - role: consumer 
+      tags: consumer, consumer
+
+    - role: rsyslog
+      tags: rsyslog, consumer
+
+    - role: sssd
+      tags: sssd, ldapauth
+
+    - role: nsswitch
+      tags: nsswitch, ldapauth
+
+    - role: pam
+      tags: pam, ldapauth
+
+    - role: sudo
+      tags: sudo, ldapauth
+
+#    - role: ldapscripts
+#      tags: ldapscripts
+    
+#    - role: account
+#      tags: account
+
+#    - role: destroy
+#      tags: destroy
+
+#    - role: debug
+#      tags: debug
+

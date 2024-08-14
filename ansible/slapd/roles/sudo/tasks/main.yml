@@ -1,0 +1,19 @@
+---
+- name: install sudo
+  community.general.pkgng:
+    name:
+    - sudo
+    state: present
+
+- name: add sss for nsswitch group
+  template:
+    src: 80-ldapwheel
+    dest: /usr/local/etc/sudoers.d
+    mode: '0644'
+
+- name: add sudo for pam
+  template:
+    src: sudo
+    dest: /etc/pam.d/sudo
+    mode: '0644'
+

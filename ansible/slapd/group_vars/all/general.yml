@@ -1,0 +1,14 @@
+---
+ldap_provider_uri: ldaps://192.168.0.98
+ldap_uri: ldaps://127.0.0.1
+ldap_suffix: dc=example,dc=com
+
+olc_suffix: '{{ ldap_suffix }}'
+olc_rootdn: cn=Manager,{{ ldap_suffix }}
+openldap_certs_dir: /usr/local/etc/openldap/certs
+cacert_pem: myca.pem
+
+# refer passwd.yml
+# olc_rootpw: xxxxxxxx
+
+

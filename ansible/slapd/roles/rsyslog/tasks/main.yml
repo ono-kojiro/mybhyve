@@ -1,0 +1,32 @@
+---
+- name: install rsyslog
+  ansible.builtin.package:
+    name:  rsyslog
+    state: present
+
+- name: enable rsyslog
+  community.general.sysrc:
+    name: rsyslogd_enable
+    value: "YES"
+
+- name: add local4 facility
+  ansible.builtin.lineinfile:
+    path: /usr/local/etc/rsyslog.d/slapd.conf
+    line: 'local4.*    /var/log/slapd.log'
+    create: true
+    mode: '0644'
+    owner: root
+    group: wheel
+
+- name: disable imklog module
+  ansible.builtin.lineinfile:
+    path: /usr/local/etc/rsyslog.conf
+    regexp: '^(module\(load="imklog"\) .*)'
+    line: '#\1'
+    backrefs: true
+
+- name: start rsyslog
+  ansible.builtin.service :
+    name:  rsyslogd
+    state: restarted
+

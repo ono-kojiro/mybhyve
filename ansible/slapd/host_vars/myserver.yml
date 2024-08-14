@@ -1,0 +1,6 @@
+---
+ansible_host: ldapserver
+ansible_ssh_common_args: -o StrictHostKeyChecking=no
+server_crt: ldapserver.crt
+server_key: ldapserver.key
+
