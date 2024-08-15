@@ -91,6 +91,35 @@
     name: slapd
     state: restarted
 
+- name: add ldap access
+  ansible.builtin.shell: |
+    cat - << EOF | ldapadd -Q -Y EXTERNAL -H ldapi:///
+    dn: olcDatabase={1}mdb,cn=config
+    changetype: modify
+    add: olcAccess
+    olcAccess: {0}to attrs=userPassword,givenName,sn,photo
+      by self write
+      by anonymous auth
+      by * none
+    -
+    add: olcAccess
+    olcAccess: {1}to attrs=shadowLastChange
+      by self write
+      by * read
+    -
+    add: olcAccess
+    olcAccess: {2}to attrs=sshPublicKey
+      by self write
+      by * read
+    -
+    add: olcAccess
+    olcAccess: {3}to *
+      by self read
+      by dn.base={{ olc_rootdn }} write
+      by * read
+    EOF
+  ignore_errors: true
+
 - name: add local4 in syslog.conf
   ansible.builtin.lineinfile:
     path: /etc/syslog.conf
