@@ -1,4 +1,10 @@
 
+add 'console=ttyS0,115200n8' to boot option.
+press Ctrl+X to continue
+
+==========================
+
+
 static IP configuration
 
 edit /etc/netplan/*.yaml
