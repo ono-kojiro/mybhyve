@@ -4,7 +4,9 @@
   tasks:
   - name: install couchdb3
     ansible.builtin.package:
-      name:  couchdb3
+      name:
+      - couchdb3
+      - ca_root_nss
       state: present
   
   - name: enable couchdb3
@@ -18,7 +20,23 @@
       dest: /usr/local/etc/couchdb3/
       owner: couchdb
       group: couchdb
-      mode: '0640'
+      mode: '0600'
+  
+  - name: upload server cert
+    ansible.builtin.copy:
+      src:  couchdb.crt
+      dest: /usr/local/etc/ssl/
+      owner: couchdb
+      group: couchdb
+      mode: '0600'
+  
+  - name: upload server key
+    ansible.builtin.copy:
+      src:  couchdb.key
+      dest: /usr/local/etc/ssl/
+      owner: couchdb
+      group: couchdb
+      mode: '0600'
 
   - name: start couchdb3
     ansible.builtin.service:
