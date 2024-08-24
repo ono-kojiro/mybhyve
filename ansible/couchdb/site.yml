@@ -1,0 +1,27 @@
+- name: setup couchdb3
+  hosts: couchdb
+
+  tasks:
+  - name: install couchdb3
+    ansible.builtin.package:
+      name:  couchdb3
+      state: present
+  
+  - name: enable couchdb3
+    community.general.sysrc:
+      name: "couchdb3_enable"
+      value: "YES"
+
+  - name: upload local.ini
+    ansible.builtin.copy:
+      src:  local.ini
+      dest: /usr/local/etc/couchdb3/
+      owner: couchdb
+      group: couchdb
+      mode: '0640'
+
+  - name: start couchdb3
+    ansible.builtin.service:
+      name:  couchdb3
+      state: restarted
+
