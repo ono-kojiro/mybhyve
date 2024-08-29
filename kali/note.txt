@@ -1,0 +1,31 @@
+
+### https://www.truenas.com/community/threads/quick-guide-to-install-centos-8-in-bhyve-with-the-serial-console.85512/
+
+insert "console=ttyS0,115200n8"
+
+then, press Ctrl-X to start.
+
++++++++++++++++++++++
+After reboot, copy /boot/efi/EFI/grubx64.efi 
+to /boot/efi/EFI/BOOT/bootx64.efi
+
+cd /boot/efi/EFI
+mkdir BOOT
+cp kali/grubx64.efi BOOT/bootx64.efi
+
+see also https://blahg.josefsipek.net/?p=595
+
++++++++++++++++++++++
+
+edit /etc/network/interfaces and restart networking service.
+
+# vi /etc/network/interface
+
+iface eth0 inet static
+  address 192.168.0.X
+  netmask 255.255.255.0
+  gateway 192.168.0.1
+  dns-nameservers 192.168.0.1
+
+# systemctl restart networking
+
